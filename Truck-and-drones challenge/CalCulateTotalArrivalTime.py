@@ -102,7 +102,7 @@ class CalCulateTotalArrivalTime:
 
         # Final adjustment: convert from seconds to minutes (or 100-unit scale)
         total_time /= 100.0
-        print("Total arrival time:", float(total_time))
+        print("Total objective:", float(total_time))
 
         """
         print("\n=== FINAL TIMINGS ===")
