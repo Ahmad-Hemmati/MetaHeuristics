@@ -1,5 +1,4 @@
-import random
-from typing import List, Tuple, Dict, Any
+from typing import Dict, Any
 
 
 class CalCulateTotalArrivalTime:
