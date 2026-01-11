@@ -6,7 +6,6 @@ import numpy as np
 # -------------------------------------------
 filename = "toy_example.txt"
 n_drones = 2 #fixed
-speed_ratio = 1.5 #fixed
 drone_capacity = 1 #fixed
 depot_index=0 #fixed
 
@@ -145,40 +144,6 @@ class SolutionRunner(CalCulateTotalArrivalTime, SolutionFeasibility):
         )
 
         return {'error': '', 'feasible': True, 'objective': total}#total, arr, dep
-
-
-# Problem instance data  
-# ---------------------------------------------------------------------------
-def parse_solution(values: str):
-    """
-    values: string like "1,2,3,|,10,20,|,5,6,|,100,200"
-            or "1,2,3|10,20|5,6|100,200"
-    returns: {"part1": [...], "part2": [...], "part3": [...], "part4": [...]}
-    """
-
-    if not isinstance(values, str):
-        raise TypeError(f"Expected string from Go, got {type(values)}")
-
-    s = values.strip()
-
-    # normalize around pipes: ",|," or ",|" or "|," -> "|"
-    s = s.replace(",|,", "|").replace(",|", "|").replace("|,", "|")
-
-    parts = s.split("|")
-    if len(parts) != 4:
-        raise ValueError(f"Expected 4 parts separated by '|', got {len(parts)} parts: {parts}")
-
-    def parse_int_list(part: str):
-        # split by comma, ignore empty chunks (can happen after normalization)
-        chunks = [c.strip() for c in part.split(",") if c.strip() != ""]
-        return [int(c) for c in chunks]
-
-    return {
-        "part1": parse_int_list(parts[0]),
-        "part2": parse_int_list(parts[1]),
-        "part3": parse_int_list(parts[2]),
-        "part4": parse_int_list(parts[3]),
-    }
 
 
 # get solution from input arguments
