@@ -46,13 +46,7 @@ def parse_solution(values: str):
 
 
 def read_data(filename: str):
-    """
-    Read coordinates from a file formatted like TRP-S50-R1.txt,
-    where each line contains two integers:  X<TAB>Y
 
-    Returns:
-        List[Tuple[int, int]]
-    """
     truck_times = []
     drone_times = []
     hash_count=0
