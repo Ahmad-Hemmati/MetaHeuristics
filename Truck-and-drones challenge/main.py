@@ -1,25 +1,17 @@
-# FeasibiltyCheckTest.py
-import math
+import math, json, sys
 from FeasibiltyCheck import SolutionFeasibility
 from CalCulateTotalArrivalTime import CalCulateTotalArrivalTime
 import numpy as np
 
 
 # -------------------------------------------
-filename = "Truck_Drone_Contest.txt"
+filename = "toy_example.txt"
 n_drones = 2 #fixed
 speed_ratio = 1.5 #fixed
 drone_capacity = 1 #fixed
 depot_index=0 #fixed
 
-example_solution_str = (
-    "0, 14, 43, 30, 6, 75, 100, 99, 20, 18, 50, 55, 97, 3, 67, 7, 64, 13, 23, 61, 49, 44, 10, 8, 96, 69, 53, 38, 76, 62, 91, 29, 77, 81, 35, 26, 33, 63, 28, 86, 5, 12, 83, 72, 40, 25, 58, 22, 93, 82, 24, 78, 2, 32, 52, 0"
-    "|87, 54, 1, 66, 89, 70, 19, 57, 79, 65, 46, 36, 51, 68, 17, 41, 27, 94, 4, 21, 47, 31, 85, 88, 74, -1, 98, 15, 95, 9, 73, 11, 92, 59, 45, 42, 80, 56, 48, 37, 34, 16, 71, 60, 39, 84, 90"
-    "|1, 4, 9, 11, 14, 15, 17, 20, 22, 24, 27, 30, 33, 35, 37, 38, 39, 41, 43, 46, 49, 50, 51, 52, 53, -1, 1, 4, 6, 7, 9, 11, 15, 19, 20, 24, 27, 29, 35, 36, 38, 42, 44, 46, 49, 52, 53"
-    "|4, 8, 11, 14, 15, 17, 20, 22, 24, 27, 30, 33, 35, 37, 38, 39, 41, 43, 45, 49, 50, 51, 52, 53, 54, -1, 4, 6, 7, 9, 11, 15, 19, 20, 24, 26, 29, 35, 36, 38, 40, 44, 45, 49, 50, 53, 54"
-)
- 
-# Problem instance data  
+example_solution_str = ("0,10,9,8,7,3,5,6,0 |11,1,-1,12,4,2 |1,6,-1,2,3,6 |3,7,-1,3,6,7")  
 # ---------------------------------------------------------------------------
 def parse_solution(values: str):
     """
@@ -137,7 +129,7 @@ class SolutionRunner(CalCulateTotalArrivalTime, SolutionFeasibility):
         sol = self.solution
         f = self.feasibility
 
-        print("=== FEASIBILITY CHECK ===")
+        #print("=== FEASIBILITY CHECK ===")
         truck_ok = f.is_truck_route_feasible(sol)
         complete_ok = f.is_complete_solution(sol)
         parts_ok = f.are_parts_consistent(sol)
@@ -151,25 +143,56 @@ class SolutionRunner(CalCulateTotalArrivalTime, SolutionFeasibility):
         print("GLOBAL FEASIBLE  :", global_ok)
 
         if not global_ok:
-            print("\nCannot calculate the total cost, since the solution is not feasible.")
-            return None
+            #print("\nCannot calculate the total cost, since the solution is not feasible.")
+            return {'error': '', 'feasible': False, 'objective': 0.0} 
 
         # If we get here, the solution is feasible → compute total waiting time
         total, arr, dep = self.calculate_total_waiting_time(
             solution=sol
         )
 
-        return total, arr, dep
+        return {'error': '', 'feasible': True, 'objective': total}#total, arr, dep
 
 
-# -------------------------------------------
-# Use the SolutionRunner class
-# -------------------------------------------
-example_solution = parse_solution(example_solution_str)
-print(example_solution)
+# Problem instance data  
+# ---------------------------------------------------------------------------
+def parse_solution(values: str):
+    """
+    values: string like "1,2,3,|,10,20,|,5,6,|,100,200"
+            or "1,2,3|10,20|5,6|100,200"
+    returns: {"part1": [...], "part2": [...], "part3": [...], "part4": [...]}
+    """
+
+    if not isinstance(values, str):
+        raise TypeError(f"Expected string from Go, got {type(values)}")
+
+    s = values.strip()
+
+    # normalize around pipes: ",|," or ",|" or "|," -> "|"
+    s = s.replace(",|,", "|").replace(",|", "|").replace("|,", "|")
+
+    parts = s.split("|")
+    if len(parts) != 4:
+        raise ValueError(f"Expected 4 parts separated by '|', got {len(parts)} parts: {parts}")
+
+    def parse_int_list(part: str):
+        # split by comma, ignore empty chunks (can happen after normalization)
+        chunks = [c.strip() for c in part.split(",") if c.strip() != ""]
+        return [int(c) for c in chunks]
+
+    return {
+        "part1": parse_int_list(parts[0]),
+        "part2": parse_int_list(parts[1]),
+        "part3": parse_int_list(parts[2]),
+        "part4": parse_int_list(parts[3]),
+    }
+
+
+# get solution from input arguments
+solution = parse_solution(example_solution_str)
 
 runner = SolutionRunner(
-    solution=example_solution,
+    solution=solution,
     truck_times=truck_times,
     flight_time_matrix=drone_times,
     flight_range_limit=flight_range,
@@ -180,4 +203,5 @@ runner = SolutionRunner(
 )
 
 result = runner.run()  # prints feasibility and total arrival time if feasible
+
 

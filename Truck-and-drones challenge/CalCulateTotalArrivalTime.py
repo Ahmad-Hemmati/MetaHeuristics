@@ -49,13 +49,19 @@ class CalCulateTotalArrivalTime:
         t_departure = {depot_index: 0}
         total_time = 0
         drone_availability = [0] * len(drone_flights)
-
+        
         for i in range(1, len(truck_route)):
             prev_node = truck_route[i - 1]
             curr_node = truck_route[i]
+            
+           
             truck_travel = self.truck_times[prev_node][curr_node]
             truck_arrival = t_departure[prev_node] + truck_travel
             t_arrival[curr_node] = truck_arrival
+            print("\nTruck departs from",prev_node,"at time",t_departure[prev_node],"at",prev_node,
+                  "and travels for a time of",truck_travel,"to arrive",curr_node,"at time",t_arrival[curr_node])
+            
+            print("Delay in next departure due to waiting for drone landings at",curr_node,":")   
 
             # Check returning drones
             drone_returns = []
@@ -67,7 +73,11 @@ class CalCulateTotalArrivalTime:
                         flight_out = self.drone_times[launch_node][cust]
                         flight_back = self.drone_times[cust][return_node]
                         total_flight = flight_out + flight_back
-
+                        print("Flight of drone",u,":",launch_node,"->",cust,"(travel time=",self.drone_times[launch_node][cust],")",
+                              "->",return_node,"(travel time=",self.drone_times[cust][return_node],")")    
+                        print("Drone arrival time at launch node",launch_node,":",drone_availability[u],
+                              "Truck arrival time at launch node",launch_node,":",t_arrival[launch_node])
+                        
                         # Drone cannot depart before both truck and its own availability
                         possible_launch_time = t_arrival[launch_node]
                         actual_launch_time = max(possible_launch_time, drone_availability[u])
@@ -76,6 +86,8 @@ class CalCulateTotalArrivalTime:
                         drone_availability[u] = drone_return_time
                         drone_returns.append(drone_return_time)
                         total_time += drone_arrival_customer
+                        print("Flight start time at",launch_node,":",actual_launch_time,"Drone arrival time at customer",cust,":",drone_arrival_customer,
+                              "Drone return time at",return_node,":",drone_return_time,"flight time = ",total_flight)
 
             # Truck waits for the latest returning drone
             if drone_returns:
@@ -83,6 +95,8 @@ class CalCulateTotalArrivalTime:
                 t_departure[curr_node] = max(truck_arrival, latest_drone)
             else:
                 t_departure[curr_node] = truck_arrival
+                
+            print("Next departure time for truck at",curr_node,"after waiting to receive or drones:",t_departure[curr_node]) 
 
             if curr_node != depot_index:
                 total_time += truck_arrival
@@ -91,9 +105,11 @@ class CalCulateTotalArrivalTime:
         total_time /= 100.0
         print("Total arrival time:", float(total_time))
 
+        """
         print("\n=== FINAL TIMINGS ===")
         for k in t_arrival:
             print(f"Truck node {k}: arrival={t_arrival[k]:.1f}, depart={t_departure[k]:.1f}")
         print("=====================\n")
+        #"""
 
         return total_time, t_arrival, t_departure
