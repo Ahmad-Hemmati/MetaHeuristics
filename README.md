@@ -4,7 +4,7 @@ This Repo is dedicated to the function utils needed for the project of the cours
 # Requirements
 - numpy, typing, collections
 
-## Description about important classes and functions
+## Description of important classes and functions
 1) Function **read_data**: Takes the string adress of input data file and gets the data about number of customers, drone flight limit, and travel time matrices for the truck and the drones. The depot is fixed as the node 0, and the number of drones as 2.
 
 2) Function **parse_solution**: Converts the solution in string format to four parts: the truck route, the customers served by the drone in the order of the truck route (with -1 denoting new drone usage), the launch indices of the drones starting from 1 (with -1 denoting new drone usage) in increasing order, the landing (reconvene) indices of the drones starting from 1 (with -1 denoting new drone usage) in increasing order
