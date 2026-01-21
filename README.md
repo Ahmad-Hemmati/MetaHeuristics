@@ -1,4 +1,4 @@
-# UiB INF273-Meta-Heuristics Truck-and-drone utils
+# UiB INF273-Meta-Heuristics Truck-and-Drone utils
 This Repo is dedicated to the function utils needed for the project of the course.
 
 # Requirements
