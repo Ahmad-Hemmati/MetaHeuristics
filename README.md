@@ -1,5 +1,5 @@
-# UiB INF273-Meta-Heuristics Truck-and-drone challenge utils
-This Repo is dedicated to the function utils needed for the project of the course for the spring semester of 2026.
+# UiB INF273-Meta-Heuristics Truck-and-drone utils
+This Repo is dedicated to the function utils needed for the project of the course.
 
 # Requirements
 - numpy, typing, collections
