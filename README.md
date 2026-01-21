@@ -1,3 +1,6 @@
+![Truck-and-drone routing](https://github.com/Ahmad-Hemmati/MetaHeuristics/blob/main/Truck-and-drones%20challenge/toy_example_solution.jpg)
+
+
 # UiB INF273-Meta-Heuristics Truck-and-Drone utils
 This Repo is dedicated to the function utils needed for the project of the course.
 
