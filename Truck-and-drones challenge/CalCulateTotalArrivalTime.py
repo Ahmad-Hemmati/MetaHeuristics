@@ -73,9 +73,9 @@ class CalCulateTotalArrivalTime:
                         flight_back = self.drone_times[cust][return_node]
                         total_flight = flight_out + flight_back
                         #print("Flight of drone",u,":",launch_node,"->",cust,"(travel time=",self.drone_times[launch_node][cust],")",
-                              "->",return_node,"(travel time=",self.drone_times[cust][return_node],")")    
+                        #      "->",return_node,"(travel time=",self.drone_times[cust][return_node],")")    
                         #print("Drone arrival time at launch node",launch_node,":",drone_availability[u],
-                              "Truck arrival time at launch node",launch_node,":",t_arrival[launch_node])
+                        #      "Truck arrival time at launch node",launch_node,":",t_arrival[launch_node])
                         
                         # Drone cannot depart before both truck and its own availability
                         possible_launch_time = t_arrival[launch_node]
