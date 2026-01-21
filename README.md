@@ -21,29 +21,30 @@ This Repo is dedicated to the function utils needed for the project of the cours
 
 A toy example instance with the example feasible solution illustrated above is used in main.py now. Several other instances are also provided with which you will be working on in the course. The format of the solution that is used in this case, and will be expected for the solutions that you submit for evaluation is explained below:
 
+--------------------------------------------------
 **Required solution format for submission**
 
 The solution must be submitted as a comma-separated sequence of numbers, using values from -1 to the number of customers.
 The full sequence is divided into four parts, separated by the character "|" .
---------------------------------------------------
+
 Part 1: Truck route
 A subset of numbers from 0 to the number of customers.
 Represents the order in which customers are visited by the truck.
 The route must start and end at the depot (0).
---------------------------------------------------
+
 Part 2: Drone deliveries
 Contains the customers not served by the truck.
 Customers are listed in the order they are served by each drone, following the truck route.
 Each drone’s sequence is separated by -1.
 This part contains one "-1".
---------------------------------------------------
+
 Part 3: Drone launch sites
 Specifies where each drone is launched.
 Uses truck route indices, counted from 1, in increasing order.
 Each index refers to a position in the truck route from Part 1.
 The launch sequence for each drone is separated by -1.
 This part contains one "-1".
---------------------------------------------------
+
 Part 4: Drone landing sites
 Similar to Part 3, but specifies where each drone lands.
 Uses truck route indices, counted from 1, in increasing order.
