@@ -19,4 +19,4 @@ This Repo is dedicated to the function utils needed for the project of the cours
 5) Class **SolutionRunner.calculate_total_waiting_time**: Used for calculating the total objective, which is equal to the sum of arrival times at the customers by either the truck, or a drone, divided by a 100. This arrival time is based on the departure time of the trucks and the drones, which might involve either the truck waiting for some drones or some drones waiting for the truck. This calculation is performed within the function, and a detailed log is also provided.
 
 
-A toy example instance with the example feasible solution given above is used in main.py now. Several other instances are also provided with which you will be working on in the course.
+A toy example instance with the example feasible solution illustrated above is used in main.py now. Several other instances are also provided with which you will be working on in the course.
