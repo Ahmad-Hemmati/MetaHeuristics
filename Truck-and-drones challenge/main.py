@@ -9,7 +9,7 @@ n_drones = 2 #fixed
 drone_capacity = 1 #fixed
 depot_index=0 #fixed
 
-example_solution_str = ("0,0,|-1|-1|-1")  
+example_solution_str = ("0,0,|,-1,|,-1|-1")  
 # ---------------------------------------------------------------------------
 def parse_solution(values: str):
     """
