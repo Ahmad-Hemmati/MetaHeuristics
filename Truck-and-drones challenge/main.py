@@ -22,9 +22,13 @@ def parse_solution(values: str):
         raise TypeError(f"Expected string from Go, got {type(values)}")
 
     s = values.strip()
+    chars = list(s.split(",")) 
+    if chars.count('|') != 3:
+        raise ValueError(f"Expected 3 chars '|', got {chars.count('|')}. chars: {chars}")
+
 
     # normalize around pipes: ",|," or ",|" or "|," -> "|"
-    s = s.replace(",|,", "|").replace(",|", "|").replace("|,", "|")
+    #s = s.replace(",|,", "|").replace(",|", "|").replace("|,", "|")
 
     parts = s.split("|")
     if len(parts) != 4:
