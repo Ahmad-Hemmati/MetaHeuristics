@@ -81,6 +81,7 @@ class CalCulateTotalArrivalTime:
                         
                         # Drone cannot depart before both truck and its own availability
                         possible_launch_time = t_arrival[launch_node]
+                        if launch_node == 0: possible_launch_time = 0; 
                         actual_launch_time = max(possible_launch_time, drone_availability[u])
                                                      
                         drone_arrival_customer = actual_launch_time + flight_out
